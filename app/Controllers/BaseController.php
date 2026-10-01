@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Controllers;
+
+use CodeIgniter\Controller;
+use CodeIgniter\HTTP\CLIRequest;
+use CodeIgniter\HTTP\IncomingRequest;
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
+
+/**
+ * Class BaseController
+ *
+ * BaseController provides a convenient place for loading components
+ * and performing functions that are needed by all your controllers.
+ * Extend this class in any new controllers:
+ *     class Home extends BaseController
+ *
+ * For security be sure to declare any new methods as protected or private.
+ */
+abstract class BaseController extends Controller
+{
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
+
+    /**
+     * An array of helpers to be loaded automatically upon
+     * class instantiation. These helpers will be available
+     * to all other controllers that extend BaseController.
+     *
+     * @var list<string>
+     */
+    protected $helpers = ['url', 'form', 'text', 'app'];
+
+    /**
+     * ข้อมูลผู้ใช้ที่ล็อกอินอยู่ (อ่านจาก session) ใช้ในทุก controller/view
+     *
+     * @var array<string, mixed>|null
+     */
+    protected $currentUser = null;
+
+    /**
+     * Be sure to declare properties for any property fetch you initialized.
+     * The creation of dynamic property is deprecated in PHP 8.2.
+     */
+    protected $session;
+
+    /**
+     * @return void
+     */
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        // Do Not Edit This Line
+        parent::initController($request, $response, $logger);
+
+        $this->session = \Config\Services::session();
+
+        if ($this->session->get('user_id')) {
+            $this->currentUser = [
+                'user_id'   => $this->session->get('user_id'),
+                'username'  => $this->session->get('username'),
+                'full_name' => $this->session->get('full_name'),
+                'role'      => $this->session->get('role'),
+            ];
+        }
+    }
+
+    /**
+     * ตัวช่วย render view โดยแนบข้อมูลผู้ใช้ปัจจุบันให้อัตโนมัติ
+     */
+    protected function render(string $view, array $data = []): string
+    {
+        $data['currentUser'] = $this->currentUser;
+
+        return view($view, $data);
+    }
+}

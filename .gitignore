@@ -1,0 +1,20 @@
+# OS
+.DS_Store
+Thumbs.db
+# CI4 writable runtime
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+/writable/debugbar/*
+/writable/uploads/*
+# env & secrets
+.env
+# ไฟล์ติดตั้ง/ชั่วคราว (ไม่ต้องขึ้น git)
+/spd_setup.sql
+/spd_align.sql
+/spd_align2.sql
+/seed_sample.sql
+/spd-ci4.zip
+/__probe*.php
+# composer vendor (ที่ root) — assets offline ที่ public/assets/vendor ยังเก็บ
+/vendor/
