@@ -17,16 +17,20 @@ class Dashboard extends BaseController
         $sent = new DocumentSentModel();
         $req  = new DocumentRequisitionModel();
 
-        $currentBe  = (int) date('Y') + 543;
+        // ปีงบประมาณปัจจุบัน (เริ่ม 1 ต.ค.) — default เป็นปีงบล่าสุดเสมอ
+        $currentBe  = to_fiscal_year_be();
         $selectedBe = (int) ($this->request->getGet('year') ?: $currentBe);
         $selectedBe = max(min($selectedBe, $currentBe), $currentBe - 4);
-        $ce         = $selectedBe - 543;
+
+        // ช่วงวันที่ของปีงบประมาณที่เลือก: 1 ต.ค. (ปีก่อน) – 30 ก.ย.
+        $endCe      = $selectedBe - 543;     // ปี ค.ศ. ที่ปีงบสิ้นสุด
+        $startCe    = $endCe - 1;            // ปี ค.ศ. ที่ปีงบเริ่ม
+        $yearStart  = $startCe . '-10-01';
+        $yearEnd    = $endCe . '-09-30';
 
         $today      = date('Y-m-d');
         $monthStart = date('Y-m-01');
         $monthEnd   = date('Y-m-t');
-        $yearStart  = $ce . '-01-01';
-        $yearEnd    = $ce . '-12-31';
 
         $data = [
             'title'           => 'แดชบอร์ด',

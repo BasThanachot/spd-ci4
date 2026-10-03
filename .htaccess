@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------
+# ส่งทุก request เข้าโฟลเดอร์ public/ (CI4 ติดตั้งแบบ subfolder)
+# เข้า http://<server>/spd/ ได้โดยไม่ต้องมี /public/
+# และกันการเข้าถึง app/, system/, writable/, .env ตรง ๆ จาก URL
+# ---------------------------------------------------------------
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+Options -Indexes

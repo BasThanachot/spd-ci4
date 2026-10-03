@@ -15,14 +15,15 @@
             <?php if ($settings && $settings->logo): ?>
                 <div class="mb-2 flex items-center gap-3">
                     <img src="<?= site_url('uploads/logo/'.$settings->logo) ?>" alt="โลโก้" class="h-16 border border-slate-200 rounded p-1">
-                    <?php $lf='del-logo'; ?>
-                    <form id="<?= $lf ?>" method="post" action="<?= site_url('admin/settings/delete-logo') ?>" class="hidden"><?= csrf_field() ?></form>
-                    <button type="button" onclick="return confirmAction('<?= $lf ?>','ยืนยันการลบโลโก้?')" class="inline-flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1 text-xs"><i class="fas fa-trash"></i> ลบโลโก้</button>
+                    <button type="button" onclick="return confirmAction('del-logo','ยืนยันการลบโลโก้?')" class="inline-flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white rounded px-2 py-1 text-xs"><i class="fas fa-trash"></i> ลบโลโก้</button>
                 </div>
             <?php endif; ?>
             <input type="file" name="logo" accept="image/jpeg,image/png,image/gif,image/svg+xml" class="w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-navy-50 file:px-4 file:py-2 file:text-navy-700 file:text-sm hover:file:bg-navy-100">
             <small class="text-slate-400">jpg, png, gif, svg — ไม่เกิน 2MB</small></div>
-        <div class="pt-2"><button class="bg-navy-600 hover:bg-navy-700 text-white text-sm font-medium rounded-lg px-5 py-2"><i class="fas fa-save mr-1"></i> บันทึก</button></div>
+        <div class="pt-2"><button type="submit" class="bg-navy-600 hover:bg-navy-700 text-white text-sm font-medium rounded-lg px-5 py-2"><i class="fas fa-save mr-1"></i> บันทึก</button></div>
     </form>
 </div>
+<?php if ($settings && $settings->logo): ?>
+    <form id="del-logo" method="post" action="<?= site_url('admin/settings/delete-logo') ?>" class="hidden"><?= csrf_field() ?></form>
+<?php endif; ?>
 <?= $this->endSection() ?>
