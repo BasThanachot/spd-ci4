@@ -50,17 +50,20 @@ class Sent extends BaseController
 
     public function index()
     {
-        $currentBe  = (int) date('Y') + 543;
+        // ปีงบประมาณ (เริ่ม 1 ต.ค.) — default ปีงบปัจจุบันเสมอ
+        $currentBe  = to_fiscal_year_be();
         $selectedBe = (int) ($this->request->getGet('year') ?: $currentBe);
         $selectedBe = max(min($selectedBe, $currentBe), $currentBe - 4);
-        $ce         = $selectedBe - 543;
+        $ys         = ($selectedBe - 543 - 1) . '-10-01';
+        $ye         = ($selectedBe - 543) . '-09-30';
         $q          = $this->request->getGet('q');
 
         return $this->render('documents/sent/index', [
             'title'           => 'ส่งหนังสือ',
+            'q'               => $q,
             'selected_year'   => $selectedBe,
             'available_years' => range($currentBe, $currentBe - 4),
-            'documents'       => $this->docs->getByYear($ce . '-01-01', $ce . '-12-31', $q ?: null),
+            'documents'       => $this->docs->getByYear($ys, $ye, $q ?: null),
         ]);
     }
 

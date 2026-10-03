@@ -6,13 +6,13 @@
 <div class="bg-white rounded-xl border border-slate-200">
     <!-- card-header -->
     <div class="flex flex-wrap items-center justify-between gap-2 px-5 py-3 border-b border-slate-100">
-        <h3 class="font-medium text-slate-700">รายการรับหนังสือ ปี <?= esc($selected_year) ?></h3>
+        <h3 class="font-medium text-slate-700">รายการรับหนังสือ ปีงบประมาณ <?= esc($selected_year) ?></h3>
         <div class="flex flex-wrap items-center gap-2">
             <form method="get" class="flex items-center">
                 <span class="inline-flex items-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 px-2.5 py-1.5 text-slate-500"><i class="fas fa-calendar-alt"></i></span>
                 <select name="year" onchange="this.form.submit()" class="rounded-r-lg border border-slate-300 px-2 py-1.5 text-sm outline-none focus:border-navy-500">
                     <?php foreach ($available_years as $y): ?>
-                        <option value="<?= $y ?>" <?= $y == $selected_year ? 'selected' : '' ?>><?= $y ?></option>
+                        <option value="<?= $y ?>" <?= $y == $selected_year ? 'selected' : '' ?>>ปีงบ <?= $y ?></option>
                     <?php endforeach; ?>
                 </select>
             </form>

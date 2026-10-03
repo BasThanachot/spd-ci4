@@ -71,13 +71,13 @@ class Requisition extends BaseController
 
     public function index()
     {
-        $currentBe  = (int) date('Y') + 543;
+        // ปีงบประมาณ (เริ่ม 1 ต.ค.) — default ปีงบปัจจุบันเสมอ
+        $currentBe  = to_fiscal_year_be();
         $selectedBe = (int) ($this->request->getGet('year') ?: $currentBe);
         $selectedBe = max(min($selectedBe, $currentBe), $currentBe - 4);
-        $ce         = $selectedBe - 543;
         $q          = $this->request->getGet('q') ?: null;
-        $ys         = $ce . '-01-01';
-        $ye         = $ce . '-12-31';
+        $ys         = ($selectedBe - 543 - 1) . '-10-01';
+        $ye         = ($selectedBe - 543) . '-09-30';
 
         $documents = $this->role === 'warehouse'
             ? $this->docs->getByDeptAndYear($this->currentDeptId, $ys, $ye, $q)
